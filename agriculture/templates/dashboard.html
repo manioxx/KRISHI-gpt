@@ -1,0 +1,362 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700"
+    />
+
+    <title>कृषि-gpt </title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #333;
+        color: white;
+        padding: 20px;
+      }
+      canvas {
+        width: 100%;
+        height: 300px;
+      }
+    </style>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      function sendData() {
+          fetch('/send/', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'X-CSRFToken': '{{ csrf_token }}'
+              },
+              body: 'data=button_pressed'
+          })
+          .then(response => response.json())
+          .then(data => {
+              alert(data.message);
+          });
+      }
+  </script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#1a1a1a] dark group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#363636] px-10 py-3">
+          <div class="flex items-center gap-4 text-white">
+            <div class="size-4">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z"
+                  fill="currentColor"
+                ></path>
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </div>
+            <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">कृषि-gpt </h2>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <button
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-black text-white text-sm font-bold leading-normal tracking-[0.015em]"
+            >
+              <span class="truncate">New</span>
+            </button>
+            
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <p class="text-white tracking-light text-[32px] font-bold leading-tight min-w-72">Empowering agriculture through Artifical Intelligence and Internet of Things​</p>
+              <button onclick="sendData()">Water</button>
+            </div>
+            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Soil Data</h3>
+            <div class="flex flex-wrap gap-4 px-4 py-6">
+              <div class="flex min-w-72 flex-1 flex-col gap-2 rounded-xl border border-[#4d4d4d] p-6">
+                <p class="text-white text-base font-medium leading-normal">Temperature : {{ sensor_data.temperature }}°C</p>
+                <div class="flex min-h-[180px] flex-1 flex-col gap-8 py-4">
+                  <svg width="100%" height="148" viewBox="-3 0 478 150" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                    <!-- Temperature Gradient Path -->
+                    <path id="temperature-path"
+                      d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
+                      fill="url(#paint0_linear_1131_5935)" />
+                    
+                    <!-- Stroke to represent the path -->
+                    <path
+                      d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
+                      stroke="#adadad"
+                      stroke-width="3"
+                      stroke-linecap="round" />
+                  
+                    <defs>
+                      <linearGradient id="paint0_linear_1131_5935" x1="236" y1="1" x2="236" y2="149" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#363636"></stop>
+                        <stop offset="1" stop-color="#363636" stop-opacity="0"></stop>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  
+                  <script>
+                    // Simulating a dynamic temperature (you will get this data from the backend or API)
+                    let temperature = 20; // Example temperature in °C
+                  
+                    // Function to update the SVG path based on the temperature
+                    function updateTemperaturePath(temp) {
+                      // Normalize the temperature to a value between 0 and 1
+                      // Here we assume the temperature ranges from 0°C to 40°C
+                      let scaleY = (temp - 0) / (40 - 0); // This maps temperature 0-40°C to 0-1 range
+                  
+                      // Update the path 'd' attribute dynamically based on the scaleY
+                      let path = document.getElementById('temperature-path');
+                  
+                      // Adjusting the path dynamically by changing the Y-coordinates based on temperature
+                      // This changes the visual representation of the path based on the temperature
+                      path.setAttribute('d', `
+                        M0 109C18.1538 109 18.1538 ${109 - scaleY * 20} 36.3077 21
+                        C54.4615 21 54.4615 ${41 - scaleY * 5} 72.6154 41
+                        C90.7692 41 90.7692 ${93 - scaleY * 10} 108.923 93
+                        C127.077 93 127.077 ${33 + scaleY * 15} 145.231 33
+                        C163.385 33 163.385 ${101 - scaleY * 7} 181.538 101
+                        C199.692 101 199.692 ${61 - scaleY * 10} 217.846 61
+                        C236 61 236 45 254.154 45
+                        C272.308 45 272.308 ${121 - scaleY * 25} 290.462 121
+                        C308.615 121 308.615 ${149 - scaleY * 30} 326.769 149
+                        C344.923 149 344.923 1 363.077 1
+                        C381.231 1 381.231 ${81 + scaleY * 10} 399.385 81
+                        C417.538 81 417.538 ${129 - scaleY * 10} 435.692 129
+                        C453.846 129 453.846 25 472 25`);
+                    }
+                  
+                    // Update the path with the initial temperature
+                    updateTemperaturePath(temperature);
+                  
+                    // Example: Updating the temperature to 30°C after 3 seconds
+                    setTimeout(() => {
+                      temperature = 30;
+                      updateTemperaturePath(temperature);
+                    }, 3000); // Simulate changing temperature after 3 seconds
+                  </script>
+                  
+                  
+                  <div class="flex justify-around">
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">1 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">2 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">3 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">4 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">5 AM</p>
+                  </div>
+                  </script>
+                </div>
+              </div>
+              <div class="flex min-w-72 flex-1 flex-col gap-2 rounded-xl border border-[#4d4d4d] p-6">
+                <p class="text-white text-base font-medium leading-normal">Humidity : {{ sensor_data.humidity }} %</p>
+                <div class="flex min-h-[180px] flex-1 flex-col gap-8 py-4">
+                  <svg width="100%" height="148" viewBox="-3 0 478 150" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                    <path
+                      d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z"
+                      fill="url(#paint0_linear_1131_5935)"
+                    ></path>
+                    <path
+                      d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
+                      stroke="#adadad"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                    ></path>
+                    <defs>
+                      <linearGradient id="paint0_linear_1131_5935" x1="236" y1="1" x2="236" y2="149" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#363636"></stop>
+                        <stop offset="1" stop-color="#363636" stop-opacity="0"></stop>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div class="flex justify-around">
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">1 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">2 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">3 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">4 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">5 AM</p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex min-w-72 flex-1 flex-col gap-2 rounded-xl border border-[#4d4d4d] p-6">
+                <p class="text-white text-base font-medium leading-normal">Light Intensity : {{ sensor_data.ldr}}</p>
+                <div class="flex min-h-[180px] flex-1 flex-col gap-8 py-4">
+                  <svg width="100%" height="148" viewBox="-3 0 478 150" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                    <path
+                      d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z"
+                      fill="url(#paint0_linear_1131_5935)"
+                    ></path>
+                    <path
+                      d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
+                      stroke="#adadad"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                    ></path>
+                    <defs>
+                      <linearGradient id="paint0_linear_1131_5935" x1="236" y1="1" x2="236" y2="149" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#363636"></stop>
+                        <stop offset="1" stop-color="#363636" stop-opacity="0"></stop>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div class="flex justify-around">
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">1 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">2 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">3 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">4 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">5 AM</p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex min-w-72 flex-1 flex-col gap-2 rounded-xl border border-[#4d4d4d] p-6">
+                <p class="text-white text-base font-medium leading-normal">Soil Moisture : {{ sensor_data.moisture }}</p>
+                <div class="flex min-h-[180px] flex-1 flex-col gap-8 py-4">
+                  <svg width="100%" height="148" viewBox="-3 0 478 150" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                    <path
+                      d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z"
+                      fill="url(#paint0_linear_1131_5935)"
+                    ></path>
+                    <path
+                      d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
+                      stroke="#adadad"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                    ></path>
+                    <defs>
+                      <linearGradient id="paint0_linear_1131_5935" x1="236" y1="1" x2="236" y2="149" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#363636"></stop>
+                        <stop offset="1" stop-color="#363636" stop-opacity="0"></stop>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div class="flex justify-around">
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">1 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">2 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">3 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">4 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">5 AM</p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex min-w-72 flex-1 flex-col gap-2 rounded-xl border border-[#4d4d4d] p-6">
+                <p class="text-white text-base font-medium leading-normal">Ph Scale : {{ sensor_data.pH }}</p>
+                <div class="flex min-h-[180px] flex-1 flex-col gap-8 py-4">
+                  <svg width="100%" height="148" viewBox="-3 0 478 150" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                    <path
+                      d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z"
+                      fill="url(#paint0_linear_1131_5935)"
+                    ></path>
+                    <path
+                      d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
+                      stroke="#adadad"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                    ></path>
+                    <defs>
+                      <linearGradient id="paint0_linear_1131_5935" x1="236" y1="1" x2="236" y2="149" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#363636"></stop>
+                        <stop offset="1" stop-color="#363636" stop-opacity="0"></stop>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div class="flex justify-around">
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">1 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">2 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">3 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">4 AM</p>
+                    <p class="text-[#adadad] text-[13px] font-bold leading-normal tracking-[0.015em]">5 AM</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Analysis</h3>
+            <div class="p-4 grid grid-cols-2">
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#4d4d4d] py-4 pr-2">
+                <p class="text-[#adadad] text-sm font-normal leading-normal">Watering</p>
+                <p class="text-white text-sm font-normal leading-normal">{{ result.best_time_to_water }}</p>
+              </div>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#4d4d4d] py-4 pl-2">
+                <p class="text-[#adadad] text-sm font-normal leading-normal">Health Status</p>
+                <p class="text-white text-sm font-normal leading-normal">{{result.health_status}}</p>
+              </div>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#4d4d4d] py-4 pl-2">
+                <p class="text-[#adadad] text-sm font-normal leading-normal">Disease Warning</p>
+                <p class="text-white text-sm font-normal leading-normal">{{result.pest_or_disease_warning}}</p>
+              </div>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#4d4d4d] py-4 pl-2">
+                <p class="text-[#adadad] text-sm font-normal leading-normal">Suggested plants</p>
+                <p class="text-white text-sm font-normal leading-normal">{{result.suitable_plants_or_seeds}}</p>
+              </div>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#4d4d4d] py-4 pl-2">
+                <p class="text-[#adadad] text-sm font-normal leading-normal">Nutrient Deficiency</p>
+                <p class="text-white text-sm font-normal leading-normal">{{result.nutrient_deficiency}}</p>
+              </div>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#4d4d4d] py-4 pl-2">
+                <p class="text-[#adadad] text-sm font-normal leading-normal">Growth Stage</p>
+                <p class="text-white text-sm font-normal leading-normal">{{result.growth_stage}}</p>
+              </div>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#4d4d4d] py-4 pl-2">
+                <p class="text-[#adadad] text-sm font-normal leading-normal">Climate Impact</p>
+                <p class="text-white text-sm font-normal leading-normal">{{result.climate_impact}}</p>
+              </div>
+
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#4d4d4d] py-4 pr-2">
+                <p class="text-[#adadad] text-sm font-normal leading-normal">Health Probability</p>
+                <p class="text-white text-sm font-normal leading-normal">{{result.health_probability}}</p>
+              </div>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#4d4d4d] py-4 pl-2">
+                <p class="text-[#adadad] text-sm font-normal leading-normal">Irrigation advice</p>
+                <p class="text-white text-sm font-normal leading-normal">{{result.irrigation_advice}}</p>
+              </div>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#4d4d4d] py-4 pr-2 col-span-2 pr-[50%]">
+                <p class="text-[#adadad] text-sm font-normal leading-normal">Suggestions</p>
+                <p class="text-white text-sm font-normal leading-normal">{{result.suggestions}}</p>
+              </div>
+            </div>
+            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Health Report</h3>
+            <div class="flex flex-wrap gap-4 p-4">
+              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border border-[#4d4d4d]">
+                <p class="text-white text-base font-medium leading-normal">Watering</p>
+                <p class="text-white tracking-light text-2xl font-bold leading-tight">Good</p>
+                <p class="text-[#0bda0b] text-base font-medium leading-normal">+10%</p>
+              </div>
+              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border border-[#4d4d4d]">
+                <p class="text-white text-base font-medium leading-normal">Moisture</p>
+                <p class="text-white tracking-light text-2xl font-bold leading-tight">Dry</p>
+                <p class="text-[#fa3838] text-base font-medium leading-normal">-5%</p>
+              </div>
+              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border border-[#4d4d4d]">
+                <p class="text-white text-base font-medium leading-normal">Light</p>
+                <p class="text-white tracking-light text-2xl font-bold leading-tight">Low</p>
+                <p class="text-[#fa3838] text-base font-medium leading-normal">-20%</p>
+              </div>
+              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border border-[#4d4d4d]">
+                <p class="text-white text-base font-medium leading-normal">Nutrients</p>
+                <p class="text-white tracking-light text-2xl font-bold leading-tight">Low</p>
+                <p class="text-[#fa3838] text-base font-medium leading-normal">-15%</p>
+              </div>
+              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border border-[#4d4d4d]">
+                <p class="text-white text-base font-medium leading-normal">Temperature</p>
+                <p class="text-white tracking-light text-2xl font-bold leading-tight">Good</p>
+                <p class="text-[#0bda0b] text-base font-medium leading-normal">+5%</p>
+              </div>
+              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border border-[#4d4d4d]">
+                <p class="text-white text-base font-medium leading-normal">Overall Health</p>
+                <p class="text-white tracking-light text-2xl font-bold leading-tight">Fair</p>
+                <p class="text-[#fa3838] text-base font-medium leading-normal">-10%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

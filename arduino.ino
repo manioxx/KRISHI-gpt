@@ -60,6 +60,7 @@ void loop() {
                        ", \"moisture\": " + String(moistureValue) +
                        ", \"rain\": " + String(rainValue) +
                        "}";
+  
   Serial.println(sensor_data);
 
   delay(1000);  // Wait for 1 second before sending data again

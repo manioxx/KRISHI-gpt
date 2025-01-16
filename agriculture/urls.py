@@ -14,6 +14,7 @@ urlpatterns = [
     path('', include('agriculture.urls')),  # Include URLs from agriculture app
     path('', views.display_data, name='dashboard'),
     path('send/', views.send_to_arduino, name='send_to_arduino'), 
-
-    
+    path('get-chart-data/', views.get_chart_data, name='get_chart_data'), 
+    path('', views.home, name='home'),    
+  
 ]

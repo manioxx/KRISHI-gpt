@@ -4,26 +4,35 @@ from django.views.decorators.csrf import csrf_exempt  # Import csrf_exempt
 import serial
 import json
 import time
+from .models import SensorData
 from .utils.data_analysis import analyze_plant_health  # Import the analysis function
 
 # Function to fetch data from Arduino
 def get_arduino_data():
     try:
         print("Attempting to connect to Arduino...")
-        # Open serial connection to the Arduino (ensure the port is correct)
-        arduino = serial.Serial('COM3', 9600, timeout=5)  # Increased timeout
-        time.sleep(2)  # Allow time for Arduino to start sending data
+        arduino = serial.Serial('COM3', 9600, timeout=5)
+        time.sleep(2)
         print("Connected to Arduino successfully.")
-        
-        data = arduino.readline()  # Read data from Arduino
+
+        data = arduino.readline()
         print(f"Raw data received: {data}")
-        
-          # Close the connection after reading
 
         if data:
             try:
-                sensor_data = json.loads(data.decode('utf-8'))  # Decode and convert to JSON
+                sensor_data = json.loads(data.decode('utf-8'))
                 print(f"Decoded sensor data: {sensor_data}")
+
+                # Save to the database
+                SensorData.objects.create(
+                    temperature=sensor_data.get("temperature"),
+                    humidity=sensor_data.get("humidity"),
+                    pH=sensor_data.get("pH"),
+                    ldr=sensor_data.get("ldr"),
+                    moisture=sensor_data.get("moisture"),
+                    rain=sensor_data.get("rain")
+                )
+
                 return sensor_data
             except json.JSONDecodeError:
                 print("Error decoding JSON data.")
@@ -33,6 +42,7 @@ def get_arduino_data():
     except Exception as e:
         print(f"Error reading from Arduino: {e}")
         return {}
+
 
 @csrf_exempt
 def process_and_analyze(request):
@@ -126,3 +136,17 @@ def api_temperature(request):
         if temperature is not None:
             return JsonResponse({'temperature': temperature})
     return JsonResponse({'error': 'No temperature data available'}, status=500)
+
+def get_chart_data(request):
+    # Fetch data from the database
+    data = SensorData.objects.order_by('-timestamp')[:100]  # Limit to last 100 entries
+    chart_data = {
+        "timestamps": [entry.timestamp.strftime('%Y-%m-%d %H:%M:%S') for entry in data],
+        "temperature": [entry.temperature for entry in data],
+        "humidity": [entry.humidity for entry in data],
+        "pH": [entry.pH for entry in data],
+        "ldr": [entry.ldr for entry in data],
+        "moisture": [entry.moisture for entry in data],
+        "rain": [entry.rain for entry in data],
+    }
+    return JsonResponse(chart_data)

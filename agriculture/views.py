@@ -23,16 +23,6 @@ def get_arduino_data():
                 sensor_data = json.loads(data.decode('utf-8'))
                 print(f"Decoded sensor data: {sensor_data}")
 
-                # Save to the database
-                SensorData.objects.create(
-                    temperature=sensor_data.get("temperature"),
-                    humidity=sensor_data.get("humidity"),
-                    pH=sensor_data.get("pH"),
-                    ldr=sensor_data.get("ldr"),
-                    moisture=sensor_data.get("moisture"),
-                    rain=sensor_data.get("rain")
-                )
-
                 return sensor_data
             except json.JSONDecodeError:
                 print("Error decoding JSON data.")
